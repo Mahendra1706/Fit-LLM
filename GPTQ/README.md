@@ -59,6 +59,31 @@ $$E = \frac{1}{2} \delta^T H \delta$$
 
 we want to find the smallest possible δ that compensates for the quantization error c, which means minimizing E subject to the constraint that the q-th weight absorbs exactly c — and that structure is precisely what Lagrange multipliers are built for.
 
+## 3.2 The Computational Reality: Why Cross-Entropy is a Nightmare
+
+Why use the Taylor Series approximation instead of the true Cross-Entropy loss function? Because using standard Cross-Entropy to test a single weight shift forces you to re-simulate the entire universe just to see what happens when you move a pebble.
+
+Here is the mathematical and computational proof of why Cross-Entropy is impossible, and why the Taylor Series is a required "cheat code."
+
+### The Scenario
+Assume we are quantizing a single layer:
+* `W`: 16,000,000 weights (4000x4000 matrix).
+* `X`: 100,000 calibration tokens.
+
+We want to test snapping just **one** weight ($w_q$) to a 4-bit grid and calculating the error spike.
+
+---
+
+### The Nightmare: Standard Cross-Entropy
+The standard formula requires a full forward pass of the data:
+$$L_{CE}(\mathbf{W}_{new}) = -\sum_{i=1}^{N} y_i \log(f(\mathbf{x}_i; \mathbf{W}_{new}))$$
+
+
+### To quantize the layer, we must repeat this for ALL 16 Million weights!
+for weight in W:
+    W_new = snap_to_4bit(weight)
+    error = calculate_cross_entropy_error(W_new, dataset)
+
 ## 4. Lagrangian Mechanics: Finding the Exact Jump ($\delta$)
 
 When we snap a target weight ($w_q$) to the 4-bit grid, it creates a raw error: $c$. 
