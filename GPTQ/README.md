@@ -55,6 +55,10 @@ $$E = \frac{1}{2} \delta^T H \delta$$
 
 ---
 
+## 3.1  why this specific error function leads to this specific Lagrangian structure 
+
+we want to find the smallest possible δ that compensates for the quantization error c, which means minimizing E subject to the constraint that the q-th weight absorbs exactly c — and that structure is precisely what Lagrange multipliers are built for.
+
 ## 4. Lagrangian Mechanics: Finding the Exact Jump ($\delta$)
 
 When we snap a target weight ($w_q$) to the 4-bit grid, it creates a raw error: $c$. 
